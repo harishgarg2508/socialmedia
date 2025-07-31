@@ -1,1 +1,5 @@
-export class CreateLikeDto {}
+export class CreateLikeDto {
+
+    userId: number;
+    postId: number
+}
