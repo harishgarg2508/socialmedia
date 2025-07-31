@@ -10,8 +10,10 @@ export class TextPostRepository extends Repository<TextPost> {
 
   }
 
-  async createTextPost(createPostDto: Partial<CreateTextPostDto>) {
-    const textPost = this.create(createPostDto);
+  async createTextPost(content:any) {
+    const textPost = this.create({
+      content
+    });
     await this.save(textPost);
     return textPost;
 

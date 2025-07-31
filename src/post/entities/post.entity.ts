@@ -26,11 +26,9 @@ export class Post {
     likes: Like[]
 
     @OneToOne(() => TextPost, textPost => textPost.post)
-    @JoinColumn({ name: 'postId' })
     textPost: TextPost
 
     @OneToOne(() => QuotePost, quotePost => quotePost.post)
-    @JoinColumn({ name: 'postId' })
     quotedPost: TextPost
 
     @CreateDateColumn()

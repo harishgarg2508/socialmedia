@@ -13,14 +13,16 @@ export class PostService {
     private readonly postRepository: PostRepository
   ) {}
   async create(createPostDto: Partial<CreatePostDto>) {
-    const {type, text, quote, author } = createPostDto;
+    const {type, content, quote, author } = createPostDto;
     if(type===postEnum.TEXT){
-      const textPost = await this.textPostRepository.createTextPost(createPostDto);
-      return await this.postRepository.save({type, postId: textPost.id});
+      const textPost = await this.textPostRepository.createTextPost(content);
+       await this.postRepository.save({type, postId: textPost.id});
+      return textPost;
     }
     else if(type===postEnum.QUOTE){
       const quotePost = await this.quotePostRepository.createQuotePost(createPostDto);
-      return await this.postRepository.save({type, postId: quotePost.id});
+       await this.postRepository.save({type, postId: quotePost.id});
+      return quotePost;
     }
   }
 

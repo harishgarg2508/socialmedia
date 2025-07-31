@@ -1,5 +1,5 @@
 import { Post } from "src/post/entities/post.entity";
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 
@@ -16,6 +16,8 @@ export class TextPost {
     createdAt: Date
 
     @OneToOne(()=>Post,post=>post.textPost)
+        @JoinColumn({ name: 'postId' })
+
     post: Post
 
 
