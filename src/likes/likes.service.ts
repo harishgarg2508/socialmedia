@@ -15,11 +15,20 @@ export class LikesService {
     const { postId, userId } = createLikeDto;
     const post = await this.postRepository.findOneBy({ id: postId });
     const user = await this.userRepository.findOneBy({ id: userId });
-    if(!post) {
+    if (!post) {
       throw new NotFoundException(`Post with id ${postId} not found`);
     }
-    if(!user) {
+    if (!user) {
       throw new NotFoundException(`User with id ${userId} not found`);
+    }
+    const alreadyLiked = await this.likeRepository.findOne({
+      where: {
+        post: { id: postId },
+        user: { id: userId }
+      }
+    });
+    if (alreadyLiked) {
+      throw new NotFoundException(`Like already exists for postId ${postId} and userId ${userId}`);
     }
     return this.likeRepository.createLike(user,post);
   }

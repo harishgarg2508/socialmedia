@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { FilterDto, OrderBY } from 'src/post/dto/filter.dto';
-import { Post, postEnum } from 'src/post/entities/post.entity';
+import { Post } from 'src/post/entities/post.entity';
 import { DataSource, Repository } from 'typeorm';
 
 @Injectable()
@@ -32,7 +32,7 @@ export class PostRepository extends Repository<Post> {
     }
 
     query.orderBy('post.createdAt', orderBy);
-    
+
     query.skip(skip).take(take);
 
     const [data, count] = await query.getManyAndCount();

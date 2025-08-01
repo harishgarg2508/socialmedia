@@ -1,11 +1,12 @@
 import { IsEnum, IsNumber, IsOptional, IsString } from "class-validator";
-import { postEnum } from "../entities/post.entity";
+import { PostEnum } from "../entities/post.entity";
 
 export class PostDto {
-    @IsEnum(postEnum)
-    postType: postEnum
+    @IsEnum(PostEnum)
+    postType: PostEnum
 
     @IsNumber()
+    @IsOptional()
     userId: number;
 
     @IsString()

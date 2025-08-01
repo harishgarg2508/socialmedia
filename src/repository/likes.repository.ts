@@ -13,6 +13,7 @@ export class LikeRepository extends Repository<Like> {
   }
 
   async createLike(user: User, post: Post) {
+    
     const like = this.create({
       post: post,
       user: user

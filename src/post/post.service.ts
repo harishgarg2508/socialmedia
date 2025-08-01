@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
-import { Post, postEnum } from './entities/post.entity';
+import { Post, PostEnum } from './entities/post.entity';
 import { TextPostRepository } from 'src/repository/textPost.repository';
 import { QuotePostRepository } from 'src/repository/quotePost.repository';
 import { PostRepository } from 'src/repository/post.repository';
@@ -30,7 +30,7 @@ export class PostService {
     }
 
 
-    if (postType === postEnum.TEXT) {
+    if (postType === PostEnum.TEXT) {
       const newTextPost = await this.textPostRepository.createTextPost(postDto);
 
       const post = this.postRepository.create({
@@ -41,7 +41,7 @@ export class PostService {
 
       return this.postRepository.save(post);
 
-    } else if (postType === postEnum.QUOTE) {
+    } else if (postType === PostEnum.QUOTE) {
       const quotePost = await this.quotePostRepository.createQuotePost(postDto);
       const quotedPost = this.postRepository.create({
         postType,

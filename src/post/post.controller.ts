@@ -10,7 +10,7 @@ import { LikeDto } from 'src/likes/dto/create-like.dto';
 export class PostController {
   constructor(private readonly postService: PostService,
     private readonly likesService: LikesService
-  ) { }
+  ) {}
 
   @Post()
   createPost(@Body() postDto: PostDto) {
@@ -29,8 +29,8 @@ export class PostController {
   }
 
   @Delete('/:postId/unLike')
-  unlike(@Param('postId') postId: string, @Body() createLikeDto: LikeDto) {
-    return this.likesService.unlike(createLikeDto);
+  unlike(@Param('postId') postId: string, @Body() likeDto: LikeDto) {
+    return this.likesService.unlike(likeDto);
   }
 
 
