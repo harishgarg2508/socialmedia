@@ -1,34 +1,48 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { PostService } from './post.service';
-import { CreatePostDto } from './dto/create-post.dto';
-import { UpdatePostDto } from './dto/update-post.dto';
+import { PostDto } from './dto/create-post.dto';
+import { FilterDto } from './dto/filter.dto';
+import { LikesService } from 'src/likes/likes.service';
+import { LikeDto } from 'src/likes/dto/create-like.dto';
+
 
 @Controller('post')
 export class PostController {
-  constructor(private readonly postService: PostService) {}
+  constructor(private readonly postService: PostService,
+    private readonly likesService: LikesService
+  ) { }
 
   @Post()
-  create(@Body() createPostDto: Partial<CreatePostDto>) {
-    return this.postService.create(createPostDto);
+  createPost(@Body() createPostDto: PostDto) {
+    return this.postService.createPost(createPostDto);
   }
 
   @Get()
-  findAll() {
-    return this.postService.findAll();
+  getAllPosts(@Query() filterDto: FilterDto) {
+    return this.postService.getAllPosts(filterDto);
   }
 
+
+  @Post('/:postId/like')
+  like(@Body() createLikeDto: LikeDto) {
+    return this.likesService.create(createLikeDto);
+  }
+
+  @Delete('/:postId/unLike')
+  unlike(@Param('postId') postId: string, @Body() createLikeDto: LikeDto) {
+    return this.likesService.unlike(createLikeDto);
+  }
+
+
+  
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.postService.findOne(+id);
+  getOnePost(@Param('id') id: string) {
+    return this.postService.getOnePost(+id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePostDto: UpdatePostDto) {
-    return this.postService.update(+id, updatePostDto);
-  }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.postService.remove(+id);
+  deletePost(@Param('id') postId: string) {
+    return this.postService.deletePost(+postId);
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTextPostDto } from 'src/text_post/dto/create-text_post.dto';
+import {  PostDto } from 'src/post/dto/create-post.dto';
 import { TextPost } from 'src/text_post/entities/text_post.entity';
 import { DataSource, Repository } from 'typeorm';
 
@@ -10,9 +10,9 @@ export class TextPostRepository extends Repository<TextPost> {
 
   }
 
-  async createTextPost(content:any) {
+  async createTextPost(postData:PostDto) {
     const textPost = this.create({
-      content
+      content: postData.content,
     });
     await this.save(textPost);
     return textPost;

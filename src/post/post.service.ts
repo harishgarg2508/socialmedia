@@ -1,44 +1,75 @@
-import { Injectable } from '@nestjs/common';
-import { CreatePostDto } from './dto/create-post.dto';
-import { UpdatePostDto } from './dto/update-post.dto';
-import { postEnum } from './entities/post.entity';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { Post, postEnum } from './entities/post.entity';
 import { TextPostRepository } from 'src/repository/textPost.repository';
 import { QuotePostRepository } from 'src/repository/quotePost.repository';
 import { PostRepository } from 'src/repository/post.repository';
+import { PostDto } from './dto/create-post.dto';
+import { Filter } from 'typeorm';
+import { FilterDto } from './dto/filter.dto';
+import { UserRepository } from 'src/repository/user.repository';
 
 @Injectable()
 export class PostService {
   constructor(private readonly textPostRepository: TextPostRepository,
     private readonly quotePostRepository: QuotePostRepository,
-    private readonly postRepository: PostRepository
-  ) {}
-  async create(createPostDto: Partial<CreatePostDto>) {
-    const {type, content, quote, author } = createPostDto;
-    if(type===postEnum.TEXT){
-      const textPost = await this.textPostRepository.createTextPost(content);
-       await this.postRepository.save({type, postId: textPost.id});
-      return textPost;
+    private readonly postRepository: PostRepository,
+    private readonly userRepository: UserRepository
+  ) { }
+
+  getAllPosts(filters: FilterDto) {
+    return this.postRepository.getAllPosts(filters)
+  }
+
+
+  async createPost(postDto: PostDto) {
+    const { postType, userId } = postDto;
+
+    const user = await this.userRepository.findOneBy({ id: userId });
+    if (!user) {
+      throw new NotFoundException(`User with id ${userId} not found`);
     }
-    else if(type===postEnum.QUOTE){
-      const quotePost = await this.quotePostRepository.createQuotePost(createPostDto);
-       await this.postRepository.save({type, postId: quotePost.id});
-      return quotePost;
+
+
+    if (postType === postEnum.TEXT) {
+      const newTextPost = await this.textPostRepository.createTextPost(postDto);
+
+      const post = this.postRepository.create({
+        postType,
+        postId: newTextPost.id,
+        user
+      });
+
+      return this.postRepository.save(post);
+
+    } else if (postType === postEnum.QUOTE) {
+      const quotePost = await this.quotePostRepository.createQuotePost(postDto);
+      const quotedPost = this.postRepository.create({
+        postType,
+        postId: quotePost.id,
+        user
+      });
+      return this.postRepository.save(quotedPost);
+    } else {
+
+      throw new BadRequestException('Invalid post type');
     }
   }
 
-  findAll() {
-    return `This action returns all post`;
+
+  async getOnePost(id: number) {
+    const post = await this.postRepository.findOneBy({ id });
+    if (!post) {
+      throw new NotFoundException('Post not found');
+    }
+    return post;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
-  }
+  deletePost(postId: number) {
+    const post = this.postRepository.findOneBy({ id: postId });
+    if (!post) {
+      throw new NotFoundException('Post not found');
+    }
 
-  update(id: number, updatePostDto: UpdatePostDto) {
-    return `This action updates a #${id} post`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} post`;
+    return this.postRepository.delete(postId);
   }
 }

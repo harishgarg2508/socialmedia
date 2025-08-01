@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { LikesService } from './likes.service';
-import { CreateLikeDto } from './dto/create-like.dto';
+import { LikeDto } from './dto/create-like.dto';
 import { UpdateLikeDto } from './dto/update-like.dto';
 
 @Controller('likes')
@@ -8,7 +8,7 @@ export class LikesController {
   constructor(private readonly likesService: LikesService) {}
 
   @Post()
-  create(@Body() createLikeDto: CreateLikeDto) {
+  create(@Body() createLikeDto: LikeDto) {
     return this.likesService.create(createLikeDto);
   }
 
@@ -27,8 +27,5 @@ export class LikesController {
     return this.likesService.update(+id, updateLikeDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.likesService.remove(+id);
-  }
+ 
 }

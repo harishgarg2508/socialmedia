@@ -15,11 +15,11 @@ export class QuotePost {
     @CreateDateColumn()
     createdAt: Date
 
-    @OneToOne(()=>Post,post=>post.quotedPost)
+    @OneToOne(()=>Post,post=>post.quotedPost,{onDelete: 'CASCADE'})
     @JoinColumn({ name: 'postId' })
     post: Post
 
-
+    
 
 
 

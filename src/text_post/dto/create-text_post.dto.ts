@@ -1,1 +1,5 @@
-export class CreateTextPostDto {}
+export class CreateTextPostDto {
+
+    
+  
+}

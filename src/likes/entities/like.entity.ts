@@ -1,4 +1,5 @@
 import { Post } from "src/post/entities/post.entity";
+import { User } from "src/user/entities/user.entity";
 import { CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 
 @Entity()
@@ -12,9 +13,9 @@ export class Like {
     @JoinColumn({name: 'post_id'})
     post: Post
 
-    @ManyToOne(() => Post, post => post.likes)
+    @ManyToOne(() => User, user => user.likes)
     @JoinColumn({name: 'user_id'})
-    user: Post
+    user: User
 
     @CreateDateColumn()
     createdAt: Date
@@ -22,3 +23,4 @@ export class Like {
     @UpdateDateColumn()
     updatedAt: Date
 }
+

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
+import { PostDto } from 'src/post/dto/create-post.dto';
 import { QuotePost } from 'src/quote_post/entities/quote_post.entity';
-import { CreateTextPostDto } from 'src/text_post/dto/create-text_post.dto';
 import { TextPost } from 'src/text_post/entities/text_post.entity';
 import { DataSource, Repository } from 'typeorm';
 
@@ -11,8 +11,12 @@ export class QuotePostRepository extends Repository<QuotePost> {
 
   }
   
-    async createQuotePost(createPostDto: Partial<CreateTextPostDto>) {
-      const quotePost = this.create(createPostDto);
+    async createQuotePost(postData:PostDto) {
+      const {quote,author} = postData
+      const quotePost = this.create({
+        quote,
+        author
+      });
       await this.save(quotePost);
       return quotePost;
 
