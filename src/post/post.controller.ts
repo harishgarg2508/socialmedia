@@ -13,8 +13,8 @@ export class PostController {
   ) { }
 
   @Post()
-  createPost(@Body() createPostDto: PostDto) {
-    return this.postService.createPost(createPostDto);
+  createPost(@Body() postDto: PostDto) {
+    return this.postService.createPost(postDto);
   }
 
   @Get()

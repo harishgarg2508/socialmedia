@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Post, postEnum } from 'src/post/entities/post.entity';
-import { TextPost } from 'src/text_post/entities/text_post.entity';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { User } from 'src/user/entities/user.entity';
 import { DataSource, Repository } from 'typeorm';

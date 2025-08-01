@@ -1,11 +1,7 @@
 import { DataSource, DataSourceOptions } from 'typeorm';
-import { User } from 'src/user/entities/user.entity';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
-import { QuotePost } from 'src/quote_post/entities/quote_post.entity';
-import { Post } from 'src/post/entities/post.entity';
-import { Like } from 'src/likes/entities/like.entity';
-import { TextPost } from 'src/text_post/entities/text_post.entity';
+
 
 
 dotenv.config();
@@ -21,7 +17,8 @@ const rawDataSourceOptions = {
     migrationsRun: false, 
     migrationsTableName: 'migrations',
     logging:false,
-    entities: [QuotePost, User, Post,Like,TextPost],
+    entities: ['dist/**/*.entity.js'],
+    seeds: ['dist/seeds/**/*.js'],
     migrations: ['dist/migrations/*.js'],
 };
 
