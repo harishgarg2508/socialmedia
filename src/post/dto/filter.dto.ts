@@ -9,8 +9,8 @@ export enum OrderBY {
 
 export class FilterDto {
     @IsOptional()
-    @IsString()
-    search?: string;
+    @IsNumber()
+    userId?: number;
 
     @IsOptional()
     @IsEnum(OrderBY)

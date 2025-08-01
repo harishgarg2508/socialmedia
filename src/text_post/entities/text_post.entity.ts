@@ -13,10 +13,6 @@ export class TextPost {
     @CreateDateColumn()
     createdAt: Date
 
-    @OneToOne(() => Post, post => post.textPost,{onDelete: 'CASCADE'})
-    @JoinColumn({ name: 'postId' })
-
-    post: Post
 
 
 }

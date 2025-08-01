@@ -1,4 +1,3 @@
-import { Post } from "src/post/entities/post.entity";
 import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
@@ -15,11 +14,8 @@ export class QuotePost {
     @CreateDateColumn()
     createdAt: Date
 
-    @OneToOne(()=>Post,post=>post.quotedPost,{onDelete: 'CASCADE'})
-    @JoinColumn({ name: 'postId' })
-    post: Post
 
-    
+
 
 
 

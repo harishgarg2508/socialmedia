@@ -1,8 +1,5 @@
 import { Like } from "src/likes/entities/like.entity";
-import { QuotePost } from "src/quote_post/entities/quote_post.entity";
-import { TextPost } from "src/text_post/entities/text_post.entity";
 import { User } from "src/user/entities/user.entity";
-import { text } from "stream/consumers";
 import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 export enum postEnum {
@@ -28,11 +25,6 @@ export class Post {
     @ManyToOne(() => User, (user) => user.posts)
     user: User;
 
-    @OneToOne(() => TextPost, textPost => textPost.post)
-    textPost: TextPost
-
-    @OneToOne(() => QuotePost, quotePost => quotePost.post)
-    quotedPost: QuotePost
 
     @CreateDateColumn()
     createdAt: Date
