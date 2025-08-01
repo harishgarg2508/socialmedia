@@ -5,3 +5,13 @@ DATABASE_USERNAME=postgres
 DATABASE_PASSWORD=harish
 DATABASE_NAME=harish
 PORT=3000
+
+
+  @PolymorphicChildren(() => [WaiterEntity, ChefEntity])
+  staff: (WaiterEntity | ChefEntity)[];
+
+  @PolymorphicParent(() => RestaurantEntity)
+  restaurant: RestaurantEntity;
+
+  @PolymorphicParent(() => RestaurantEntity)
+  restaurant: RestaurantEntity;

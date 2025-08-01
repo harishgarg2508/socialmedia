@@ -32,7 +32,7 @@ export class Post {
     textPost: TextPost
 
     @OneToOne(() => QuotePost, quotePost => quotePost.post)
-    quotedPost: TextPost
+    quotedPost: QuotePost
 
     @CreateDateColumn()
     createdAt: Date
